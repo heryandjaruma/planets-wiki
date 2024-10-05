@@ -2,6 +2,7 @@ import React, { useRef, useMemo } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { CelestialBody } from '../model/CelestiaBody';
+import { Line } from '@react-three/drei';
 
 // Define properties for the orbit path
 interface OrbitPathProps {
@@ -21,9 +22,7 @@ const OrbitPath: React.FC<OrbitPathProps> = ({ radius }) => {
   const orbitGeometry = useMemo(() => new THREE.BufferGeometry().setFromPoints(points), [points]);
 
   return (
-    <line geometry={orbitGeometry}>
-      <lineBasicMaterial color="gray" linewidth={1} />
-    </line>
+    <Line points={points} color="gray" lineWidth={1} />
   );
 };
 
