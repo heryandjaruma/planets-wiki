@@ -1,7 +1,6 @@
 import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
-import { OrbitControls, Stars } from '@react-three/drei';
 import { CelestialBody } from '../model/CelestiaBody';
 
 // Define properties for the orbit path
