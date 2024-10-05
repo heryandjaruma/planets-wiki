@@ -8,6 +8,7 @@ import { OrbitControls, Stars } from '@react-three/drei';
 import { CelestialBody } from '../model/CelestialBody';
 import CelestialBodyComponent from './CelestialBodyComponents';
 import CameraFollow from './CameraFollow';
+import SpaceBackground from './SpaceBackground';
 
 
 const OrreryFiber = () => {
@@ -78,28 +79,6 @@ const OrreryFiber = () => {
       {/* Controls */}
       <OrbitControls />
     </Canvas>
-  );
-};
-
-const SpaceBackground = () => {
-  const texture = useLoader(THREE.TextureLoader, '/assets/bg-space.jpg');
-
-  // Increase texture quality
-  texture.anisotropy = 16; // Maximum anisotropy for better quality (use renderer.capabilities.getMaxAnisotropy())
-  texture.magFilter = THREE.LinearFilter; // Use linear filtering for magnification
-  texture.minFilter = THREE.LinearMipMapLinearFilter; // Use linear mipmap filtering for minification
-  texture.wrapS = THREE.RepeatWrapping; // Optional: repeat wrapping for larger scenes
-  texture.wrapT = THREE.RepeatWrapping;
-
-  return (
-    <mesh>
-      <sphereGeometry args={[500, 60, 60]} />
-      <meshBasicMaterial
-        map={texture}
-        side={THREE.BackSide}
-        color="#949494"
-      />
-    </mesh>
   );
 };
 

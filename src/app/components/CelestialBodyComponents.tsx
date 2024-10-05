@@ -81,4 +81,6 @@ const CelestialBodyComponent = forwardRef<THREE.Mesh, CelestialBodyComponentProp
   );
 });
 
+CelestialBodyComponent.displayName = 'CelestialBodyComponent';
+
 export default CelestialBodyComponent;
