@@ -1,8 +1,10 @@
 import Head from "next/head";
 import OrreryFiber from "./components/OrreryFiber";
 import { tapioca, tapiocaShadow } from "./fonts";
+import useSettingsStore from "@/stores/useSettingsStore";
 
 export default function Home() {
+  
   return (
     <div>
       <div>
@@ -14,7 +16,6 @@ export default function Home() {
 
       <main className="relative w-full h-full">
         <OrreryFiber className="absolute top-0 left-0" />
-        {/* <h1 className={`absolute top-20 right-0 text-2xl z-50 text-white ${tapioca.className}`}>Planets Wiki</h1> */}
       </main>
     </div>
     </div>

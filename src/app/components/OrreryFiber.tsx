@@ -19,38 +19,31 @@ interface OrreryFiberProps {
 }
 
 const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
-  // Reference for each celestial body's mesh to track its position
-  const [selectedBodyRef, setSelectedBodyRef] = useState<React.RefObject<THREE.Mesh> | null>(null);
+  const initialCameraPosition = new THREE.Vector3(0, 0, 100); // Initial camera position
+  const [focusedObject, setFocusedObject] = useState<THREE.Mesh | null>(null); // Currently focused object
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
+  
+    // Reset camera to initial position
+    const resetCamera = () => {
+      if (cameraRef.current) {
+        cameraRef.current.position.copy(initialCameraPosition);
+        cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Reset look direction
+      }
+      setFocusedObject(null); // Clear focused object
+    };
 
-  const sunRef = useRef<THREE.Mesh>(null);
-  const mercuryRef = useRef<THREE.Mesh>(null);
-  const venusRef = useRef<THREE.Mesh>(null);
-  const earthRef = useRef<THREE.Mesh>(null);
-  const marsRef = useRef<THREE.Mesh>(null);
-  const jupiterRef = useRef<THREE.Mesh>(null);
-  const saturnRef = useRef<THREE.Mesh>(null);
-  const uranusRef = useRef<THREE.Mesh>(null);
-  const neptuneRef = useRef<THREE.Mesh>(null);
-
-  const sun = new CelestialBody('Sun', 5, 'yellow', 0, 0, false, '/assets/materials/bodies/material-sun-2.jpg');
-  const mercury = new CelestialBody('Mercury', 0.5, 'white', 10, 0.24, true, '/assets/materials/bodies/material-mercury.jpg');
-  const venus = new CelestialBody('Venus', 0.8, 'white', 15, 0.18, true, '/assets/materials/bodies/material-venus.jpg');
-  const earth = new CelestialBody('Earth', 1, 'white', 20, 0.1, true, '/assets/materials/bodies/material-earth.jpg');
-  const mars = new CelestialBody('Mars', 0.6, 'white', 30, 0.08, true, '/assets/materials/bodies/material-mars-2.jpg');
-  const jupiter = new CelestialBody('Jupiter', 3, 'white', 70, 0.05, true, '/assets/materials/bodies/material-jupiter-2.jpg');
-  const saturn = new CelestialBody('Saturn', 0.46, 'white', 120, 0.03, true, '/assets/materials/bodies/material-saturn.jpg');
-  const uranus = new CelestialBody('Uranus', 0.8, 'white', 180, 0.02, true, '/assets/materials/bodies/material-uranus.jpg');
-  const neptune = new CelestialBody('Neptune', 0.19, 'white', 230, 0.01, true, '/assets/materials/bodies/material-neptune.jpg');
 
   return (
       <Canvas 
-        camera={{ position: [0, 0, 100], fov: 75, near: 0.1, far: 5000 }}
+        camera={{ position: initialCameraPosition.toArray(), fov: 75, near: 0.1, far: 5000 }}
+        // camera={{ position: initialCameraPosition.toArray(), fov: 75 }}
         gl={{ alpha: false }}
         style={{ width: '100vw', height: '100vh'}}
         onCreated={({ gl, camera }) => {
           gl.setClearColor('#000'); // Set the background color here
           camera.lookAt(new THREE.Vector3(50, 0, 0)); // Look away from the Sun
         }}
+        onPointerMissed={() => setFocusedObject(null)}
       >
 
       <ambientLight intensity={1} />
@@ -63,11 +56,8 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
 
       {/* Camera Follow Component */}
       {/* {selectedBodyRef && <CameraFollow targetRef={selectedBodyRef} />} */}
-
-      {/* Celestial Bodies with click handlers to set the camera target */}
-      <CelestialBodyComponent key={sun.name} body={sun} ref={sunRef} onClick={() => setSelectedBodyRef(sunRef)} />
       
-      <OrbitingEarth />
+      <OrbitingEarth onClick={(mesh) => setFocusedObject(mesh)} />
       <EarthOrbit />
       
       <OrbitingMars />
@@ -82,9 +72,18 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
         saturation={0} // Stars' color saturation
         fade          // Smooth fade to the edges of the canvas
       />
+      
+      {focusedObject && (
+        <CameraFollow
+          focusedObject={focusedObject}
+          onLostFocus={() => setFocusedObject(null)}
+        />
+      )}
 
       {/* Controls */}
       <OrbitControls target={[50, 0, 0]} />
+      {/* <OrbitControls enabled={!focusedObject} target={[50, 0, 0]} /> */}
+
     </Canvas>
   );
 };

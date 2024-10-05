@@ -1,25 +1,33 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Line, Sphere } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
 import * as THREE from 'three';
+import useSettingsStore from '@/stores/useSettingsStore';
 
+interface EarthOrbittingProps {
+  onClick: (mesh: THREE.Mesh | null) => void;
+}
 
-
-function OrbitingEarth() {
+function OrbitingEarth({ onClick }: EarthOrbittingProps) {
+  // states
+  const scalingFactor = useSettingsStore((state) => state.scalingFactor);
+  const advanceSeconds = useSettingsStore((state) => state.advanceSeconds);
+  
+  // refs
   const earthRef = useRef<THREE.Mesh>(null);
   const [time, setTime] = useState(new Date());
+  
+  const texturePath = '/assets/materials/bodies/material-earth.jpg';
+  const texture = useLoader(THREE.TextureLoader, texturePath);
 
-  // Scaling factor to manage astronomical units (AU)
-  const scalingFactor = 100;
-
-  // Use useFrame to update Earth's position based on time
   useFrame(() => {
-    const currentTime = new Date(time.getTime() + 86400000); // Advance one day
+    const currentTime = new Date(time.getTime() + advanceSeconds);
     setTime(currentTime);
 
     const earthPosition = HelioVector(Body.Earth, currentTime);
-    if (earthRef.current) {  // Ensure it's not null or undefined
+
+    if (earthRef.current) {
       earthRef.current.position.set(
         earthPosition.x * scalingFactor,
         earthPosition.y * scalingFactor,
@@ -29,9 +37,14 @@ function OrbitingEarth() {
   });
 
   return (
-    <mesh ref={earthRef}>
+    <mesh ref={earthRef} rotation={[0, Math.PI, 0]} 
+    onClick={(event) => {
+      event.stopPropagation();
+      onClick(earthRef.current);
+    }}
+    >
       <Sphere args={[2, 32, 32]}>
-        <meshStandardMaterial color="blue" />
+        <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>
   );

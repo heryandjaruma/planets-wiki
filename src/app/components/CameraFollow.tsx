@@ -1,34 +1,50 @@
-import React, { useEffect } from 'react';
+// components/CameraFollow.tsx
 import { useFrame, useThree } from '@react-three/fiber';
+import gsap from 'gsap';
+import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 interface CameraFollowProps {
-  targetRef: React.RefObject<THREE.Mesh>;
+  focusedObject: THREE.Object3D | null;
+  onLostFocus: () => void;
 }
 
-const CameraFollow = ({ targetRef }: CameraFollowProps) => {
+const CameraFollow: React.FC<CameraFollowProps> = ({ focusedObject, onLostFocus }) => {
   const { camera } = useThree();
+  const [isObjectInView, setIsObjectInView] = useState(true);
 
   useEffect(() => {
-    if (targetRef.current) {
-      const initialPosition = targetRef.current.position;
-      // Set the initial position of the camera relative to Earth
-      camera.position.set(initialPosition.x + 10, initialPosition.y + 5, initialPosition.z + 20);
-      camera.lookAt(initialPosition);
+    if (focusedObject) {
+      const offset = new THREE.Vector3(5, 2.1, 5);
+      const newPosition = focusedObject.position.clone().add(offset);
+      gsap.to(camera.position, {
+        x: newPosition.x,
+        y: newPosition.y,
+        z: newPosition.z,
+        duration: 1, // 1 second duration
+        onUpdate: () => {
+          camera.lookAt(focusedObject.position);
+        },
+      });
     }
-  }, [targetRef, camera]);
+  }, [focusedObject, camera]);
 
   useFrame(() => {
-    if (targetRef.current) {
-      // Get the target position (Earth's position)
-      const targetPosition = targetRef.current.position;
-      // Smoothly move the camera to follow the target
-      camera.position.lerp(
-        new THREE.Vector3(targetPosition.x + 10, targetPosition.y + 5, targetPosition.z + 20),
-        0.1
+    if (focusedObject) {
+      // Check if the object is in the camera's field of view
+      const frustum = new THREE.Frustum();
+      const matrix = new THREE.Matrix4().multiplyMatrices(
+        camera.projectionMatrix,
+        camera.matrixWorldInverse
       );
-      // Make the camera look at the target
-      camera.lookAt(targetPosition);
+      frustum.setFromProjectionMatrix(matrix);
+      const isInView = frustum.containsPoint(focusedObject.position);
+      if (!isInView && isObjectInView) {
+        setIsObjectInView(false);
+        onLostFocus();
+      } else if (isInView && !isObjectInView) {
+        setIsObjectInView(true);
+      }
     }
   });
 
