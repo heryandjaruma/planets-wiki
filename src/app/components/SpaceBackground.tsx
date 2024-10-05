@@ -2,7 +2,7 @@ import { useLoader } from "@react-three/fiber";
 import * as THREE from 'three';
 
 const SpaceBackground = () => {
-  const texture = useLoader(THREE.TextureLoader, '/assets/bg-space.jpg');
+  const texture = useLoader(THREE.TextureLoader, '/assets/bg-space-2.jpg');
 
   return (
     <mesh>
@@ -10,7 +10,7 @@ const SpaceBackground = () => {
       <meshBasicMaterial
         map={texture}
         side={THREE.BackSide}
-        color="#949494"
+        color="#fff"
       />
     </mesh>
   );

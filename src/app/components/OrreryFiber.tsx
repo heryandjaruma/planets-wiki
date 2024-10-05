@@ -10,8 +10,11 @@ import CelestialBodyComponent from './CelestialBodyComponents';
 import CameraFollow from './CameraFollow';
 import SpaceBackground from './SpaceBackground';
 
+interface OrreryFiberProps {
+  className?: string; // Optional className prop
+}
 
-const OrreryFiber = () => {
+const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
   // Reference for each celestial body's mesh to track its position
   const [selectedBodyRef, setSelectedBodyRef] = useState<React.RefObject<THREE.Mesh> | null>(null);
 
@@ -36,14 +39,16 @@ const OrreryFiber = () => {
   const neptune = new CelestialBody('Neptune', 0.19, 'white', 230, 0.01, true, '/assets/materials/bodies/material-neptune.jpg');
 
   return (
-    <Canvas 
-      camera={{ position: [0, 100, 200], fov: 60 }}
-      gl={{ alpha: false }}
-      style={{ width: '100vw', height: '100vh'}}
-      onCreated={({ gl }) => {
-        gl.setClearColor('#021631'); // Set the background color here
-      }}
-    >
+<Canvas 
+  camera={{ position: [50, 75, 100], fov: 60 }}
+  gl={{ alpha: false }}
+  style={{ width: '100vw', height: '100vh'}}
+  onCreated={({ gl, camera }) => {
+    gl.setClearColor('#000'); // Set the background color here
+    camera.lookAt(new THREE.Vector3(50, 0, 0)); // Look away from the Sun
+  }}
+>
+
       <ambientLight intensity={1} />
       <pointLight position={[0, 0, 0]} intensity={1} />
 
@@ -77,7 +82,7 @@ const OrreryFiber = () => {
       />
 
       {/* Controls */}
-      <OrbitControls />
+      <OrbitControls target={[50, 0, 0]} />
     </Canvas>
   );
 };
