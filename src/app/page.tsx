@@ -1,6 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
-import Orrery from "./components/Orrery";
 import OrreryFiber from "./components/OrreryFiber";
 
 export default function Home() {
@@ -14,8 +12,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Welcome to the Dynamic Orrery!</h1>
-        {/* <Orrery /> */}
+        <h1>Welcome to the Orrery!</h1>
         <OrreryFiber />
       </main>
     </div>

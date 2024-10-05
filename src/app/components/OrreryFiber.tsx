@@ -5,7 +5,6 @@ import React, { Suspense } from 'react';
 import * as THREE from 'three';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
-import Planet from './Planet';
 import Sun from '../bodies/Sun';
 import { CelestialBody } from '../model/CelestiaBody';
 import CelestialBodyComponent from './CelestialBodyComponents';
