@@ -25,12 +25,12 @@ const OrreryFiber = () => {
   const uranusRef = useRef<THREE.Mesh>(null);
   const neptuneRef = useRef<THREE.Mesh>(null);
 
-  const sun = new CelestialBody('Sun', 5, 'yellow', 0, 0, false, '/assets/materials/bodies/material-sun.jpg');
+  const sun = new CelestialBody('Sun', 5, 'yellow', 0, 0, false, '/assets/materials/bodies/material-sun-2.jpg');
   const mercury = new CelestialBody('Mercury', 0.5, 'white', 10, 0.24, true, '/assets/materials/bodies/material-mercury.jpg');
   const venus = new CelestialBody('Venus', 0.8, 'white', 15, 0.18, true, '/assets/materials/bodies/material-venus.jpg');
   const earth = new CelestialBody('Earth', 1, 'white', 20, 0.1, true, '/assets/materials/bodies/material-earth.jpg');
-  const mars = new CelestialBody('Mars', 0.6, 'white', 30, 0.08, true, '/assets/materials/bodies/material-mars.jpg');
-  const jupiter = new CelestialBody('Jupiter', 3, 'white', 70, 0.05, true, '/assets/materials/bodies/material-jupiter.jpg');
+  const mars = new CelestialBody('Mars', 0.6, 'white', 30, 0.08, true, '/assets/materials/bodies/material-mars-2.jpg');
+  const jupiter = new CelestialBody('Jupiter', 3, 'white', 70, 0.05, true, '/assets/materials/bodies/material-jupiter-2.jpg');
   const saturn = new CelestialBody('Saturn', 0.46, 'white', 120, 0.03, true, '/assets/materials/bodies/material-saturn.jpg');
   const uranus = new CelestialBody('Uranus', 0.8, 'white', 180, 0.02, true, '/assets/materials/bodies/material-uranus.jpg');
   const neptune = new CelestialBody('Neptune', 0.19, 'white', 230, 0.01, true, '/assets/materials/bodies/material-neptune.jpg');
@@ -44,7 +44,7 @@ const OrreryFiber = () => {
         gl.setClearColor('#021631'); // Set the background color here
       }}
     >
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={1} />
       <pointLight position={[0, 0, 0]} intensity={1} />
 
       {/* Background */}

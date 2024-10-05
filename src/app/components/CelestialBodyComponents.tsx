@@ -36,7 +36,8 @@ const CelestialBodyComponent = forwardRef<THREE.Mesh, CelestialBodyComponentProp
   const planetRef = useRef<THREE.Mesh>(null);
   const resolvedRef = (ref ?? planetRef) as React.MutableRefObject<THREE.Mesh | null>;
 
-  const texture = body.texturePath ? useLoader(THREE.TextureLoader, body.texturePath) : null;
+  const texturePath = body.texturePath || '/assets/materials/bodies/material-uranus.jpg';
+  const texture = useLoader(THREE.TextureLoader, texturePath);
 
   // Animation for the body's orbit
   useFrame(({ clock }) => {
