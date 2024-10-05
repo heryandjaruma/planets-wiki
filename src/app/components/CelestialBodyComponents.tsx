@@ -9,7 +9,7 @@ interface OrbitPathProps {
   radius: number;
 }
 
-const OrbitPath: React.FC<OrbitPathProps> = ({ radius }) => {
+const OrbitPath = ({ radius }: OrbitPathProps) => {
   const points = useMemo(() => {
     const pointsArray: THREE.Vector3[] = [];
     for (let i = 0; i <= 64; i++) {
@@ -19,11 +19,7 @@ const OrbitPath: React.FC<OrbitPathProps> = ({ radius }) => {
     return pointsArray;
   }, [radius]);
 
-  const orbitGeometry = useMemo(() => new THREE.BufferGeometry().setFromPoints(points), [points]);
-
-  return (
-    <Line points={points} color="gray" lineWidth={1} />
-  );
+  return <Line points={points} color="gray" lineWidth={1} />;
 };
 
 // Define CelestialBodyComponent
@@ -34,7 +30,11 @@ interface CelestialBodyComponentProps {
 const CelestialBodyComponent: React.FC<CelestialBodyComponentProps> = ({ body }) => {
   const planetRef = useRef<THREE.Mesh>(null);
 
-  const texture = body.texturePath ? useLoader(THREE.TextureLoader, body.texturePath) : null;
+  // Always call useLoader, but conditionally provide the texturePath
+  const texturePath = body.texturePath ?? ''; // Use an empty string if there's no texturePath
+  const texture = useLoader(THREE.TextureLoader, texturePath);
+
+  const finalTexture = body.texturePath ? texture : null;
 
   // Animation for the body's orbit
   useFrame(({ clock }) => {
@@ -52,9 +52,9 @@ const CelestialBodyComponent: React.FC<CelestialBodyComponentProps> = ({ body })
         <sphereGeometry args={[body.radius, 32, 32]} />
         <meshStandardMaterial
           color={body.color}
-          map={texture ?? undefined}
+          map={finalTexture ?? undefined}
           emissive={body.name === 'Sun' ? 'orange' : undefined}
-          emissiveMap={body.name === 'Sun' ? texture : undefined}
+          emissiveMap={body.name === 'Sun' ? finalTexture : undefined}
           emissiveIntensity={body.name === 'Sun' ? 1 : undefined}
         />
       </mesh>
@@ -62,4 +62,4 @@ const CelestialBodyComponent: React.FC<CelestialBodyComponentProps> = ({ body })
   );
 };
 
-export default CelestialBodyComponent
+export default CelestialBodyComponent;
