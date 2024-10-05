@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
 import * as THREE from 'three';
 import useSettingsStore from '@/stores/useSettingsStore';
 
-interface EarthOrbittingProps {
+interface EarthProps {
   onClick: (mesh: THREE.Mesh | null) => void;
 }
 
-function Earth({ onClick }: EarthOrbittingProps) {
+function Earth({ onClick }: EarthProps) {
   // states
   const scalingFactor = useSettingsStore((state) => state.scalingFactor);
   const advanceSeconds = useSettingsStore((state) => state.advanceSeconds);
@@ -25,6 +25,7 @@ function Earth({ onClick }: EarthOrbittingProps) {
     }
   }, [setEarthRef]);
   
+  // texture
   const texturePath = '/assets/materials/bodies/material-earth.jpg';
   const texture = useLoader(THREE.TextureLoader, texturePath);
 

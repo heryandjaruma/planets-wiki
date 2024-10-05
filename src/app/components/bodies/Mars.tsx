@@ -1,27 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
 import * as THREE from 'three';
 import useSettingsStore from '@/stores/useSettingsStore';
 
-function Mars() {
+interface MarsProps {
+  onClick: (mesh: THREE.Mesh | null) => void;
+}
+
+function Mars({ onClick }: MarsProps) {
   // states
   const scalingFactor = useSettingsStore((state) => state.scalingFactor);
   const advanceSeconds = useSettingsStore((state) => state.advanceSeconds);
   
-  
-  const marsRef = useRef<THREE.Mesh>(null); // Create a ref for Mars
-  const setMarsRef = useSettingsStore((state) => state.setMarsRef); // Getter for setMarsRef from Zustand
+  // refs
+  const marsRef = useRef<THREE.Mesh>(null);
+  const setMarsRef = useSettingsStore((state) => state.setMarsRef);
   const [time, setTime] = useState(new Date());
   
   useEffect(() => {
     if (marsRef.current) {
-      setMarsRef(marsRef); // Correctly set the marsRef in the store
+      setMarsRef(marsRef);
     }
   }, [setMarsRef]);
   
-  // Use useFrame to update Mars' position based on time
+  // texture
+  const texturePath = '/assets/materials/bodies/material-mars.jpg';
+  const texture = useLoader(THREE.TextureLoader, texturePath);
+  
   useFrame(() => {
     const currentTime = new Date(time.getTime() + advanceSeconds);
     setTime(currentTime);
@@ -38,9 +45,14 @@ function Mars() {
   });
 
   return (
-    <mesh ref={marsRef}>
+    <mesh ref={marsRef}
+    onClick={(event) => {
+      event.stopPropagation();
+      onClick(marsRef.current);
+    }}
+    >
       <Sphere args={[1.5, 32, 32]}>
-        <meshStandardMaterial color="red" />
+        <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>
   );

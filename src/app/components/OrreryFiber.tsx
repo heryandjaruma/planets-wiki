@@ -15,6 +15,7 @@ import Mars from './bodies/Mars';
 import MarsOrbit from './orbits/MarsOrbit';
 import Moon from './bodies/Moon';
 import Sun from './bodies/Sun';
+import useSettingsStore from '@/stores/useSettingsStore';
 
 interface OrreryFiberProps {
   className?: string; // Optional className prop
@@ -23,7 +24,15 @@ interface OrreryFiberProps {
 const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
   const initialCameraPosition = new THREE.Vector3(0, 0, 100); // Initial camera position
   const [focusedObject, setFocusedObject] = useState<THREE.Mesh | null>(null); // Currently focused object
+  
+  // camera ref
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
+  const setCameraRef = useSettingsStore((state) => state.setCameraRef);
+  React.useEffect(() => {
+    if (cameraRef.current) {
+      setCameraRef(cameraRef);
+    }
+  }, [setCameraRef]);
   
     // Reset camera to initial position
     const resetCamera = () => {
@@ -38,32 +47,25 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
   return (
       <Canvas 
         camera={{ position: initialCameraPosition.toArray(), fov: 75, near: 0.1, far: 5000 }}
-        // camera={{ position: initialCameraPosition.toArray(), fov: 75 }}
         gl={{ alpha: false }}
         style={{ width: '100vw', height: '100vh'}}
         onCreated={({ gl, camera }) => {
-          gl.setClearColor('#000'); // Set the background color here
-          camera.lookAt(new THREE.Vector3(50, 0, 0)); // Look away from the Sun
+          gl.setClearColor('#000');
+          camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look away from the Sun
         }}
         onPointerMissed={() => setFocusedObject(null)}
       >
-
       <ambientLight intensity={1} />
       <pointLight position={[0, 0, 0]} intensity={1} />
-
-      {/* Background */}
+      
       <Suspense fallback={null}>
         <SpaceBackground />
       </Suspense>
-
-      {/* Camera Follow Component */}
-      {/* {selectedBodyRef && <CameraFollow targetRef={selectedBodyRef} />} */}
-      
       
       <Sun />
       <Earth onClick={(mesh) => setFocusedObject(mesh)} />
       <Moon />
-      <Mars />
+      <Mars onClick={(mesh) => setFocusedObject(mesh)}/>
       
       <EarthOrbit />
       <MarsOrbit />   

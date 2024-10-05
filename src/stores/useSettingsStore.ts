@@ -3,6 +3,9 @@ import { create } from 'zustand';
 import * as THREE from 'three';
 
 interface SettingsState {
+  cameraRef: React.RefObject<THREE.PerspectiveCamera> | null;
+  setCameraRef: (ref: React.RefObject<THREE.PerspectiveCamera>) => void;
+  
   scalingFactor: number;
   setScalingFactor: (factor: number) => void;
   
@@ -18,6 +21,9 @@ interface SettingsState {
 
 // Using Zustand's create function to create the store
 const useSettingsStore = create<SettingsState>((set) => ({
+  cameraRef: null,
+  setCameraRef: (ref) => set({ cameraRef: ref }),
+  
   scalingFactor: 100,
   setScalingFactor: (factor: number) => set(() => ({ scalingFactor: factor })),
   
