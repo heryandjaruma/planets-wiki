@@ -13,6 +13,7 @@ import OrbitingEarth from './EarthOrbiting';
 import EarthOrbit from './EarthOrbit';
 import OrbitingMars from './MarsOrbiting';
 import MarsOrbit from './MarsOrbit';
+import OrbitingMoon from './OrbittingMoon';
 
 interface OrreryFiberProps {
   className?: string; // Optional className prop
@@ -61,7 +62,8 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
       <EarthOrbit />
       
       <OrbitingMars />
-      <MarsOrbit />
+      <MarsOrbit />   
+      <OrbitingMoon />
 
       {/* Stars background */}
       <Stars

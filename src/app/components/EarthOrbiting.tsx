@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Line, Sphere } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
@@ -15,8 +15,15 @@ function OrbitingEarth({ onClick }: EarthOrbittingProps) {
   const advanceSeconds = useSettingsStore((state) => state.advanceSeconds);
   
   // refs
-  const earthRef = useRef<THREE.Mesh>(null);
+  const earthRef = useRef<THREE.Mesh>(null); // Reference to the Earth mesh
+  const setEarthRef = useSettingsStore((state) => state.setEarthRef); // Access the store's setter
   const [time, setTime] = useState(new Date());
+  
+  useEffect(() => {
+    if (earthRef.current) {
+      setEarthRef(earthRef); // Store the ref globally
+    }
+  }, [setEarthRef]);
   
   const texturePath = '/assets/materials/bodies/material-earth.jpg';
   const texture = useLoader(THREE.TextureLoader, texturePath);
