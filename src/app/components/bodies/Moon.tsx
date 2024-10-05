@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 import useSettingsStore from '@/stores/useSettingsStore';
 
-const OrbitingMoon: React.FC = () => {
+const Moon: React.FC = () => {
   const moonRef = useRef<THREE.Mesh>(null);
   const earthRef = useSettingsStore((state) => state.earthRef); // Access the Earth reference from the store
   const scalingFactor = useSettingsStore((state) => state.scalingFactor); // Scaling factor
@@ -15,6 +15,10 @@ const OrbitingMoon: React.FC = () => {
   const moonAngularVelocity = (2 * Math.PI) / moonOrbitalPeriod; // Angular velocity for Moon
 
   const [time, setTime] = useState(0); // Time elapsed in seconds
+  
+  // texture
+  const texturePath = '/assets/materials/bodies/material-moon.jpg';
+  const texture = useLoader(THREE.TextureLoader, texturePath);
 
   useFrame((state, delta) => {
     if (earthRef?.current && moonRef.current) {
@@ -38,10 +42,10 @@ const OrbitingMoon: React.FC = () => {
   return (
     <mesh ref={moonRef}>
       <Sphere args={[0.5, 32, 32]}>
-        <meshStandardMaterial color="gray" />
+        <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>
   );
 };
 
-export default OrbitingMoon;
+export default Moon;

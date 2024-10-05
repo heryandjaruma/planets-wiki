@@ -1,9 +1,10 @@
+import useSettingsStore from "@/stores/useSettingsStore";
 import { Line } from "@react-three/drei";
 import { Body, HelioVector } from "astronomy-engine";
 import { useMemo } from "react";
 
 function EarthOrbit() {
-  const scalingFactor = 100;
+  const scalingFactor = useSettingsStore((state) => state.scalingFactor);
 
   // UseMemo to avoid recalculating points on each render
   const points = useMemo(() => {

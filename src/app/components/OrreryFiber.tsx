@@ -9,11 +9,12 @@ import { CelestialBody } from '../model/CelestialBody';
 import CelestialBodyComponent from './CelestialBodyComponents';
 import CameraFollow from './CameraFollow';
 import SpaceBackground from './SpaceBackground';
-import OrbitingEarth from './EarthOrbiting';
-import EarthOrbit from './EarthOrbit';
-import OrbitingMars from './MarsOrbiting';
-import MarsOrbit from './MarsOrbit';
-import OrbitingMoon from './OrbittingMoon';
+import Earth from './bodies/Earth';
+import EarthOrbit from './orbits/EarthOrbit';
+import Mars from './bodies/Mars';
+import MarsOrbit from './orbits/MarsOrbit';
+import Moon from './bodies/Moon';
+import Sun from './bodies/Sun';
 
 interface OrreryFiberProps {
   className?: string; // Optional className prop
@@ -58,12 +59,14 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
       {/* Camera Follow Component */}
       {/* {selectedBodyRef && <CameraFollow targetRef={selectedBodyRef} />} */}
       
-      <OrbitingEarth onClick={(mesh) => setFocusedObject(mesh)} />
-      <EarthOrbit />
       
-      <OrbitingMars />
+      <Sun />
+      <Earth onClick={(mesh) => setFocusedObject(mesh)} />
+      <Moon />
+      <Mars />
+      
+      <EarthOrbit />
       <MarsOrbit />   
-      <OrbitingMoon />
 
       {/* Stars background */}
       <Stars
@@ -78,7 +81,7 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
       {focusedObject && (
         <CameraFollow
           focusedObject={focusedObject}
-          onLostFocus={() => setFocusedObject(null)}
+          // onLostFocus={() => setFocusedObject(null)}
         />
       )}
 

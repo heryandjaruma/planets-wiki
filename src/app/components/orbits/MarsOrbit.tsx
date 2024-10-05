@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Line } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
-import * as THREE from 'three';
+import useSettingsStore from '@/stores/useSettingsStore';
 
 function MarsOrbit() {
-  const scalingFactor = 100;
+  const scalingFactor = useSettingsStore((state) => state.scalingFactor);
 
   // UseMemo to avoid recalculating points on each render
   const points = useMemo(() => {
@@ -32,7 +32,7 @@ function MarsOrbit() {
   }, []);
 
   // Render the orbit path using the Line component
-  return <Line points={points} color="red" lineWidth={1} />;
+  return <Line points={points} color="gray" lineWidth={1} />;
 }
 
 export default MarsOrbit;

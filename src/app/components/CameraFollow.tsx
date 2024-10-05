@@ -5,10 +5,10 @@ import * as THREE from 'three';
 
 interface CameraFollowProps {
   focusedObject: THREE.Object3D | null;
-  onLostFocus: () => void;
+  // onLostFocus: () => void;
 }
 
-const CameraFollow: React.FC<CameraFollowProps> = ({ focusedObject, onLostFocus }) => {
+const CameraFollow: React.FC<CameraFollowProps> = ({ focusedObject }) => {
   const { camera } = useThree();
   const [isObjectInView, setIsObjectInView] = useState(true);
   const offset = new THREE.Vector3(5, 2.1, 5); // Adjust as needed
@@ -49,7 +49,7 @@ const CameraFollow: React.FC<CameraFollowProps> = ({ focusedObject, onLostFocus 
       const isInView = frustum.containsPoint(objPosition);
       if (!isInView && isObjectInView) {
         setIsObjectInView(false);
-        onLostFocus();
+        // onLostFocus();
       } else if (isInView && !isObjectInView) {
         setIsObjectInView(true);
       }

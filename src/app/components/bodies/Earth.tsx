@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Line, Sphere } from '@react-three/drei';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { Sphere } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
 import * as THREE from 'three';
 import useSettingsStore from '@/stores/useSettingsStore';
@@ -9,19 +9,19 @@ interface EarthOrbittingProps {
   onClick: (mesh: THREE.Mesh | null) => void;
 }
 
-function OrbitingEarth({ onClick }: EarthOrbittingProps) {
+function Earth({ onClick }: EarthOrbittingProps) {
   // states
   const scalingFactor = useSettingsStore((state) => state.scalingFactor);
   const advanceSeconds = useSettingsStore((state) => state.advanceSeconds);
   
   // refs
-  const earthRef = useRef<THREE.Mesh>(null); // Reference to the Earth mesh
-  const setEarthRef = useSettingsStore((state) => state.setEarthRef); // Access the store's setter
+  const earthRef = useRef<THREE.Mesh>(null);
+  const setEarthRef = useSettingsStore((state) => state.setEarthRef);
   const [time, setTime] = useState(new Date());
   
   useEffect(() => {
     if (earthRef.current) {
-      setEarthRef(earthRef); // Store the ref globally
+      setEarthRef(earthRef);
     }
   }, [setEarthRef]);
   
@@ -57,4 +57,4 @@ function OrbitingEarth({ onClick }: EarthOrbittingProps) {
   );
 }
 
-export default OrbitingEarth
+export default Earth
