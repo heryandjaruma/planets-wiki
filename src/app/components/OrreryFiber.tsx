@@ -9,6 +9,10 @@ import { CelestialBody } from '../model/CelestialBody';
 import CelestialBodyComponent from './CelestialBodyComponents';
 import CameraFollow from './CameraFollow';
 import SpaceBackground from './SpaceBackground';
+import OrbitingEarth from './EarthOrbiting';
+import EarthOrbit from './EarthOrbit';
+import OrbitingMars from './MarsOrbiting';
+import MarsOrbit from './MarsOrbit';
 
 interface OrreryFiberProps {
   className?: string; // Optional className prop
@@ -39,15 +43,15 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
   const neptune = new CelestialBody('Neptune', 0.19, 'white', 230, 0.01, true, '/assets/materials/bodies/material-neptune.jpg');
 
   return (
-<Canvas 
-  camera={{ position: [50, 75, 100], fov: 60 }}
-  gl={{ alpha: false }}
-  style={{ width: '100vw', height: '100vh'}}
-  onCreated={({ gl, camera }) => {
-    gl.setClearColor('#000'); // Set the background color here
-    camera.lookAt(new THREE.Vector3(50, 0, 0)); // Look away from the Sun
-  }}
->
+      <Canvas 
+        camera={{ position: [0, 0, 100], fov: 75, near: 0.1, far: 5000 }}
+        gl={{ alpha: false }}
+        style={{ width: '100vw', height: '100vh'}}
+        onCreated={({ gl, camera }) => {
+          gl.setClearColor('#000'); // Set the background color here
+          camera.lookAt(new THREE.Vector3(50, 0, 0)); // Look away from the Sun
+        }}
+      >
 
       <ambientLight intensity={1} />
       <pointLight position={[0, 0, 0]} intensity={1} />
@@ -58,23 +62,21 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
       </Suspense>
 
       {/* Camera Follow Component */}
-      {selectedBodyRef && <CameraFollow targetRef={selectedBodyRef} />}
+      {/* {selectedBodyRef && <CameraFollow targetRef={selectedBodyRef} />} */}
 
       {/* Celestial Bodies with click handlers to set the camera target */}
       <CelestialBodyComponent key={sun.name} body={sun} ref={sunRef} onClick={() => setSelectedBodyRef(sunRef)} />
-      <CelestialBodyComponent key={mercury.name} body={mercury} ref={mercuryRef} onClick={() => setSelectedBodyRef(mercuryRef)} />
-      <CelestialBodyComponent key={venus.name} body={venus} ref={venusRef} onClick={() => setSelectedBodyRef(venusRef)} />
-      <CelestialBodyComponent key={earth.name} body={earth} ref={earthRef} onClick={() => setSelectedBodyRef(earthRef)} rotation={{ speed: 0.01, axisY: 1, axisX: 0 }} />
-      <CelestialBodyComponent key={mars.name} body={mars} ref={marsRef} onClick={() => setSelectedBodyRef(marsRef)} />
-      <CelestialBodyComponent key={jupiter.name} body={jupiter} ref={jupiterRef} onClick={() => setSelectedBodyRef(jupiterRef)} />
-      <CelestialBodyComponent key={saturn.name} body={saturn} ref={saturnRef} onClick={() => setSelectedBodyRef(saturnRef)} />
-      <CelestialBodyComponent key={uranus.name} body={uranus} ref={uranusRef} onClick={() => setSelectedBodyRef(uranusRef)} />
-      <CelestialBodyComponent key={neptune.name} body={neptune} ref={neptuneRef} onClick={() => setSelectedBodyRef(neptuneRef)} />
+      
+      <OrbitingEarth />
+      <EarthOrbit />
+      
+      <OrbitingMars />
+      <MarsOrbit />
 
       {/* Stars background */}
       <Stars
         radius={300}  // Radius of star field
-        depth={60}    // Star field depth
+        depth={100}    // Star field depth
         count={5000}  // Number of stars
         factor={7}    // Star size factor
         saturation={0} // Stars' color saturation
