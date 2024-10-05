@@ -34,8 +34,7 @@ interface CelestialBodyComponentProps {
 const CelestialBodyComponent: React.FC<CelestialBodyComponentProps> = ({ body }) => {
   const planetRef = useRef<THREE.Mesh>(null);
 
-  // Load Sun texture if the body is the Sun
-  const sunTexture = useLoader(THREE.TextureLoader, '/assets/material-sun.jpg');
+  const texture = body.texturePath ? useLoader(THREE.TextureLoader, body.texturePath) : null;
 
   // Animation for the body's orbit
   useFrame(({ clock }) => {
@@ -52,10 +51,10 @@ const CelestialBodyComponent: React.FC<CelestialBodyComponentProps> = ({ body })
       <mesh ref={planetRef} position={body.name === 'Sun' ? [0, 0, 0] : [body.distanceFromSun, 0, 0]}>
         <sphereGeometry args={[body.radius, 32, 32]} />
         <meshStandardMaterial
-          color={body.name === 'Sun' ? undefined : body.color}
-          map={body.name === 'Sun' ? sunTexture : undefined}
+          color={body.color}
+          map={texture ?? undefined}
           emissive={body.name === 'Sun' ? 'orange' : undefined}
-          emissiveMap={body.name === 'Sun' ? sunTexture : undefined}
+          emissiveMap={body.name === 'Sun' ? texture : undefined}
           emissiveIntensity={body.name === 'Sun' ? 1 : undefined}
         />
       </mesh>

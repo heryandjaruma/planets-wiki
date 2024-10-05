@@ -5,6 +5,7 @@ interface CelestialBodyProps {
   distanceFromSun: number;
   speed: number;
   hasOrbit: boolean;
+  texturePath?: string;
 }
 
 class CelestialBody implements CelestialBodyProps {
@@ -14,7 +15,8 @@ class CelestialBody implements CelestialBodyProps {
     public color: string,
     public distanceFromSun: number,
     public speed: number,
-    public hasOrbit: boolean
+    public hasOrbit: boolean,
+    public texturePath?: string,
   ) {}
 }
 

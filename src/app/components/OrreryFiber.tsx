@@ -12,15 +12,15 @@ import CelestialBodyComponent from './CelestialBodyComponents';
 
 const OrreryFiber = () => {
   
-  const sun = new CelestialBody('Sun', 5, 'yellow', 0, 0, false);
-  const mercury = new CelestialBody('Mercury', 0.02, 'gray', 10, 0.24, true);
-  const venus = new CelestialBody('Venus', 0.05, 'goldenrod', 15, 0.18, true);
-  const earth = new CelestialBody('Earth', 0.05, 'blue', 20, 0.1, true);
-  const mars = new CelestialBody('Mars', 0.03, 'red', 30, 0.08, true);
-  const jupiter = new CelestialBody('Jupiter', 0.55, 'orange', 70, 0.05, true);
-  const saturn = new CelestialBody('Saturn', 0.46, 'yellow', 120, 0.03, true);
-  const uranus = new CelestialBody('Uranus', 0.2, 'lightblue', 180, 0.02, true);
-  const neptune = new CelestialBody('Neptune', 0.19, 'blue', 230, 0.01, true);
+  const sun = new CelestialBody('Sun', 5, 'yellow', 0, 0, false, '/assets/materials/bodies/material-sun.jpg');
+  const mercury = new CelestialBody('Mercury', 0.5, 'white', 10, 0.24, true, '/assets/materials/bodies/material-mercury.jpg');
+  const venus = new CelestialBody('Venus', 0.8, 'white', 15, 0.18, true, '/assets/materials/bodies/material-venus.jpg');
+  const earth = new CelestialBody('Earth', 1, 'white', 20, 0.1, true, '/assets/materials/bodies/material-earth.jpg');
+  const mars = new CelestialBody('Mars', 0.6, 'white', 30, 0.08, true, '/assets/materials/bodies/material-mars.jpg');
+  const jupiter = new CelestialBody('Jupiter', 3, 'white', 70, 0.05, true, '/assets/materials/bodies/material-jupiter.jpg');
+  const saturn = new CelestialBody('Saturn', 0.46, 'white', 120, 0.03, true, '/assets/materials/bodies/material-saturn.jpg');
+  const uranus = new CelestialBody('Uranus', 0.8, 'white', 180, 0.02, true, '/assets/materials/bodies/material-uranus.jpg');
+  const neptune = new CelestialBody('Neptune', 0.19, 'white', 230, 0.01, true, '/assets/materials/bodies/material-neptune.jpg');
   
   const celestialBodies: CelestialBody[] = [sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune];
   
@@ -87,7 +87,7 @@ const SpaceBackground = () => {
       <meshBasicMaterial
         map={texture}
         side={THREE.BackSide}
-        color="#bfbfbf"
+        color="#949494"
       />
     </mesh>
   );

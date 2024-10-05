@@ -5,7 +5,7 @@ import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 
 const Sun = () => {
-  const sunTexture = useLoader(TextureLoader, '/assets/material-sun.jpg');
+  const sunTexture = useLoader(TextureLoader, '/assets/materials/bodies/material-sun.jpg');
 
   return (
     // sun's position
