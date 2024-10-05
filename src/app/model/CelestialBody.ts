@@ -1,3 +1,5 @@
+import { Rotation } from "./Properties";
+
 interface CelestialBodyProps {
   name: string;
   radius: number;
@@ -6,6 +8,7 @@ interface CelestialBodyProps {
   speed: number;
   hasOrbit: boolean;
   texturePath?: string;
+  rotation?: Rotation;
 }
 
 class CelestialBody implements CelestialBodyProps {
@@ -17,6 +20,7 @@ class CelestialBody implements CelestialBodyProps {
     public speed: number,
     public hasOrbit: boolean,
     public texturePath?: string,
+    public rotation?: Rotation,
   ) {}
 }
 

@@ -1,65 +1,84 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, forwardRef } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
-import { CelestialBody } from '../model/CelestiaBody';
+import { CelestialBody } from '../model/CelestialBody';
 import { Line } from '@react-three/drei';
+import { Rotation } from '../model/Properties';
 
 // Define properties for the orbit path
 interface OrbitPathProps {
-  radius: number;
+  radiusX: number;
+  radiusZ: number;
 }
 
-const OrbitPath = ({ radius }: OrbitPathProps) => {
+const OrbitPath = ({ radiusX, radiusZ }: OrbitPathProps) => {
   const points = useMemo(() => {
     const pointsArray: THREE.Vector3[] = [];
     for (let i = 0; i <= 64; i++) {
       const angle = (i / 64) * Math.PI * 2;
-      pointsArray.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
+      pointsArray.push(new THREE.Vector3(Math.cos(angle) * radiusX, 0, Math.sin(angle) * radiusZ));
     }
     return pointsArray;
-  }, [radius]);
+  }, [radiusX, radiusZ]);
 
   return <Line points={points} color="gray" lineWidth={1} />;
 };
 
-// Define CelestialBodyComponent
+// Define CelestialBodyComponent with forwardRef
 interface CelestialBodyComponentProps {
   body: CelestialBody;
+  rotation?: Rotation;
+  onClick: () => void;
 }
 
-const CelestialBodyComponent: React.FC<CelestialBodyComponentProps> = ({ body }) => {
+const CelestialBodyComponent = forwardRef<THREE.Mesh, CelestialBodyComponentProps>(({ body, rotation, onClick }, ref) => {
+  // Type guard for checking MutableRefObject
   const planetRef = useRef<THREE.Mesh>(null);
+  const resolvedRef = (ref ?? planetRef) as React.MutableRefObject<THREE.Mesh | null>;
 
-  // Always call useLoader, but conditionally provide the texturePath
-  const texturePath = body.texturePath ?? ''; // Use an empty string if there's no texturePath
-  const texture = useLoader(THREE.TextureLoader, texturePath);
-
-  const finalTexture = body.texturePath ? texture : null;
+  const texture = body.texturePath ? useLoader(THREE.TextureLoader, body.texturePath) : null;
 
   // Animation for the body's orbit
   useFrame(({ clock }) => {
-    if (planetRef.current && body.name !== 'Sun') {
-      const t = clock.getElapsedTime() * body.speed;
-      planetRef.current.position.x = body.distanceFromSun * Math.cos(t);
-      planetRef.current.position.z = body.distanceFromSun * Math.sin(t);
+    if (resolvedRef.current) {
+      const t = clock.getElapsedTime();
+
+      // Elliptical orbit calculation for planets
+      if (body.name !== 'Sun') {
+        resolvedRef.current.position.x = body.distanceFromSun * 1.2 * Math.cos(t * body.speed);
+        resolvedRef.current.position.z = body.distanceFromSun * Math.sin(t * body.speed);
+        resolvedRef.current.position.y = 0; // Keep the planet on the flat plane
+      }
+
+      // Proper rotation around its axis (Y and X)
+      if (rotation) {
+        resolvedRef.current.rotation.y += rotation.speed * rotation.axisY;
+        resolvedRef.current.rotation.x += rotation.speed * rotation.axisX;
+      }
     }
   });
 
   return (
     <>
-      {body.hasOrbit && body.name !== 'Sun' && <OrbitPath radius={body.distanceFromSun} />}
-      <mesh ref={planetRef} position={body.name === 'Sun' ? [0, 0, 0] : [body.distanceFromSun, 0, 0]}>
+      {body.hasOrbit && body.name !== 'Sun' && (
+        <OrbitPath radiusX={body.distanceFromSun * 1.2} radiusZ={body.distanceFromSun} />
+      )}
+      <mesh
+        ref={resolvedRef} // Use resolvedRef here, which could be the provided ref or a local one
+        position={body.name === 'Sun' ? [0, 0, 0] : [body.distanceFromSun, 0, 0]}
+        onClick={onClick} // Handle click event
+      >
         <sphereGeometry args={[body.radius, 32, 32]} />
         <meshStandardMaterial
           color={body.color}
-          map={finalTexture ?? undefined}
+          map={texture ?? undefined}
           emissive={body.name === 'Sun' ? 'orange' : undefined}
-          emissiveMap={body.name === 'Sun' ? finalTexture : undefined}
+          emissiveMap={body.name === 'Sun' ? texture : undefined}
           emissiveIntensity={body.name === 'Sun' ? 1 : undefined}
         />
       </mesh>
     </>
   );
-};
+});
 
 export default CelestialBodyComponent;
