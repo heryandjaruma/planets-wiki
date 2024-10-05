@@ -6,7 +6,7 @@ const SpaceBackground = () => {
 
   return (
     <mesh>
-      <sphereGeometry args={[800, 60, 60]} />
+      <sphereGeometry args={[9000, 60, 60]} />
       <meshBasicMaterial
         map={texture}
         side={THREE.BackSide}

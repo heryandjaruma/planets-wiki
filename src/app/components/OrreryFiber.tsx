@@ -16,6 +16,18 @@ import MarsOrbit from './orbits/MarsOrbit';
 import Moon from './bodies/Moon';
 import Sun from './bodies/Sun';
 import useSettingsStore from '@/stores/useSettingsStore';
+import Mercury from './bodies/Mercury';
+import MercuryOrbit from './orbits/MercuryOrbit';
+import Venus from './bodies/Venus';
+import VenusOrbit from './orbits/VenusOrbit';
+import Jupiter from './bodies/Jupiter';
+import JupiterOrbit from './orbits/JupiterOrbit';
+import Neptune from './bodies/Neptune';
+import NeptuneOrbit from './orbits/NeptuneOrbit';
+import Saturn from './bodies/Saturn';
+import SaturnOrbit from './orbits/SaturnOrbit';
+import Uranus from './bodies/Uranus';
+import UranusOrbit from './orbits/UranusOrbit';
 
 interface OrreryFiberProps {
   className?: string; // Optional className prop
@@ -46,7 +58,7 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
 
   return (
       <Canvas 
-        camera={{ position: initialCameraPosition.toArray(), fov: 75, near: 0.1, far: 5000 }}
+        camera={{ position: initialCameraPosition.toArray(), fov: 75, near: 0.1, far: 100000 }}
         gl={{ alpha: false }}
         style={{ width: '100vw', height: '100vh'}}
         onCreated={({ gl, camera }) => {
@@ -63,22 +75,24 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
       </Suspense>
       
       <Sun />
+      <Mercury onClick={(mesh) => setFocusedObject(mesh)} />
+      <Venus onClick={(mesh) => setFocusedObject(mesh)} />
       <Earth onClick={(mesh) => setFocusedObject(mesh)} />
       <Moon />
+      <Jupiter onClick={(mesh) => setFocusedObject(mesh)} />
       <Mars onClick={(mesh) => setFocusedObject(mesh)}/>
+      <Neptune onClick={(mesh) => setFocusedObject(mesh)} />
+      <Saturn onClick={(mesh) => setFocusedObject(mesh)} />
+      <Uranus onClick={(mesh) => setFocusedObject(mesh)} />
       
+      <MercuryOrbit />
+      <VenusOrbit />
       <EarthOrbit />
       <MarsOrbit />   
-
-      {/* Stars background */}
-      <Stars
-        radius={300}  // Radius of star field
-        depth={100}    // Star field depth
-        count={5000}  // Number of stars
-        factor={7}    // Star size factor
-        saturation={0} // Stars' color saturation
-        fade          // Smooth fade to the edges of the canvas
-      />
+      <JupiterOrbit />
+      <NeptuneOrbit />
+      <SaturnOrbit />
+      <UranusOrbit />
       
       {focusedObject && (
         <CameraFollow
