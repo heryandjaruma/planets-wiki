@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
-import { Sphere } from '@react-three/drei';
+import { Billboard, Sphere, Text } from '@react-three/drei';
 import { Body, HelioVector } from 'astronomy-engine';
 import * as THREE from 'three';
 import useSettingsStore from '@/stores/useSettingsStore';
@@ -53,6 +53,17 @@ function Earth({ onClick }: EarthProps) {
     >
       <Sphere args={[6, 32, 32]}>
         <meshStandardMaterial map={texture} />
+        <Billboard>
+          <Text
+            position={[10, 10, 10]}  // Position above the sphere
+            fontSize={5}
+            color="white"
+            anchorX="center"  // Align horizontally
+            anchorY="middle"  // Align vertically
+          >
+            Hello Sphere
+          </Text>
+        </Billboard>
       </Sphere>
     </mesh>
   );

@@ -14,7 +14,8 @@ interface SettingsState {
 
   advanceSeconds: number;
   setAdvanceSeconds: (seconds: number) => void;
-
+  
+  // planets
   mercuryRef: React.RefObject<THREE.Mesh> | null;
   setMercuryRef: (ref: React.RefObject<THREE.Mesh>) => void;
 

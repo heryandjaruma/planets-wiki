@@ -23,8 +23,6 @@ export default function Step4() {
           </Button>
           
         </div>
-
-
       </div>
     </section>
   )

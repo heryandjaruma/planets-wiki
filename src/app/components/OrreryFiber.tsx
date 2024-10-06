@@ -1,7 +1,7 @@
 // components/SolarSystem.tsx
 'use client'
 
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useRef, useState, useEffect } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
@@ -34,28 +34,28 @@ interface OrreryFiberProps {
 }
 
 const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
-  const initialCameraPosition = new THREE.Vector3(0, 0, 100); // Initial camera position
-  const [focusedObject, setFocusedObject] = useState<THREE.Mesh | null>(null); // Currently focused object
+  const initialCameraPosition = new THREE.Vector3(0, 0, 100);
+  const [focusedObject, setFocusedObject] = useState<THREE.Mesh | null>(null);
   
   // camera ref
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const setCameraRef = useSettingsStore((state) => state.setCameraRef);
-  React.useEffect(() => {
+  
+  useEffect(() => {
     if (cameraRef.current) {
       setCameraRef(cameraRef);
     }
   }, [setCameraRef]);
   
-    // Reset camera to initial position
-    const resetCamera = () => {
-      if (cameraRef.current) {
-        cameraRef.current.position.copy(initialCameraPosition);
-        cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Reset look direction
-      }
-      setFocusedObject(null); // Clear focused object
-    };
-
-
+  // Reset camera to initial position
+  const resetCamera = () => {
+    if (cameraRef.current) {
+      cameraRef.current.position.copy(initialCameraPosition);
+      cameraRef.current.lookAt(new THREE.Vector3(0, 0, 0)); // Reset look direction
+    }
+    setFocusedObject(null); // Clear focused object
+  };
+  
   return (
       <Canvas 
         camera={{ position: initialCameraPosition.toArray(), fov: 75, near: 0.1, far: 100000 }}
@@ -103,7 +103,6 @@ const OrreryFiber: React.FC<OrreryFiberProps> = ({ className }) => {
 
       {/* Controls */}
       <OrbitControls target={[50, 0, 0]} />
-      {/* <OrbitControls enabled={!focusedObject} target={[50, 0, 0]} /> */}
 
     </Canvas>
   );
