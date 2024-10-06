@@ -49,7 +49,7 @@ function Venus({ onClick }: VenusProps) {
         onClick(venusRef.current);
       }}
     >
-      <Sphere args={[1.8, 32, 32]}>
+      <Sphere args={[4, 32, 32]}>
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

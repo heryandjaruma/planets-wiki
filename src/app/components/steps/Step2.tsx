@@ -14,7 +14,7 @@ export default function Step2() {
         <p className="w-3/4">The Sun is a giant, nearly perfect sphere of hot plasma, and its core reaches temperatures of about 15 million degrees Celsius (27 million degrees Fahrenheit). This intense heat drives nuclear fusion, where hydrogen atoms fuse to form helium, releasing massive amounts of energy that powers the Sun and provides light and warmth to our solar system.</p>
         
         <p className="py-4">
-          Interact with the background to see our sun.
+          Interact with the background on the left to explore.
         </p>
         
         <Button variant="secondary" onClick={() => setCurrentStep(3)}>

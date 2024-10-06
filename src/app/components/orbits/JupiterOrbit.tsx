@@ -32,7 +32,7 @@ function JupiterOrbit() {
     return orbitPoints;
   }, [scalingFactor]);
 
-  return <Line points={points} color="white" lineWidth={1} />;
+  return <Line points={points} color="gray" lineWidth={1} />;
 }
 
 export default JupiterOrbit;

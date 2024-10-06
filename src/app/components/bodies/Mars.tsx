@@ -51,7 +51,7 @@ function Mars({ onClick }: MarsProps) {
       onClick(marsRef.current);
     }}
     >
-      <Sphere args={[1.5, 32, 32]}>
+      <Sphere args={[4, 32, 32]}>
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

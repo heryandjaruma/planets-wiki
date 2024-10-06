@@ -49,7 +49,7 @@ function Saturn({ onClick }: SaturnProps) {
         onClick(saturnRef.current);
       }}
     >
-      <Sphere args={[2.75, 32, 32]}> {/* Saturn's size */}
+      <Sphere args={[4, 32, 32]}> {/* Saturn's size */}
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

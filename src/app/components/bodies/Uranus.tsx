@@ -49,7 +49,7 @@ function Uranus({ onClick }: UranusProps) {
         onClick(uranusRef.current);
       }}
     >
-      <Sphere args={[2, 32, 32]}> {/* Uranus is smaller than Saturn but still large */}
+      <Sphere args={[4, 32, 32]}> {/* Uranus is smaller than Saturn but still large */}
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

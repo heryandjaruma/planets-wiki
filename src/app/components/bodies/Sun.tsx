@@ -10,7 +10,7 @@ const Sun = () => {
   return (
     // sun's position
     <mesh position={[0, 0, 0]}> 
-      <sphereGeometry args={[5, 32, 32]} />
+      <sphereGeometry args={[10, 32, 32]} />
       <meshStandardMaterial map={sunTexture} emissiveMap={sunTexture} emissive="orange" emissiveIntensity={1} color={'#d9d2b4'} />
     </mesh>
   );

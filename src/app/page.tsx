@@ -19,6 +19,8 @@ export default function Home() {
           <OrreryFiber className="absolute top-0 left-0" />
           
           <Main />
+          
+          <div className="absolute bottom-0 left-0 p-4 text-white z-10 text-sm">Bodies are not to scale</div>
         </main>
       </div>
     </div>

@@ -49,7 +49,7 @@ function Neptune({ onClick }: NeptuneProps) {
         onClick(neptuneRef.current);
       }}
     >
-      <Sphere args={[2.5, 32, 32]}> {/* Neptune is large, so increase the sphere size */}
+      <Sphere args={[4, 32, 32]}> {/* Neptune is large, so increase the sphere size */}
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

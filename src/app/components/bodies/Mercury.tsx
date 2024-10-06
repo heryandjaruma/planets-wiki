@@ -51,7 +51,7 @@ function Mercury({ onClick }: MercuryProps) {
       onClick(mercuryRef.current);
     }}
     >
-      <Sphere args={[2, 32, 32]}>
+      <Sphere args={[5, 32, 32]}>
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

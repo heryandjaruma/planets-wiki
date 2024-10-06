@@ -41,7 +41,7 @@ const Moon: React.FC = () => {
 
   return (
     <mesh ref={moonRef}>
-      <Sphere args={[0.5, 32, 32]}>
+      <Sphere args={[1, 32, 32]}>
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

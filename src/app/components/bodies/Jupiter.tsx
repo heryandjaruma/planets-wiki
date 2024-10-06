@@ -49,7 +49,7 @@ function Jupiter({ onClick }: JupiterProps) {
         onClick(jupiterRef.current);
       }}
     >
-      <Sphere args={[3, 32, 32]}> {/* Jupiter is larger, so increase the sphere size */}
+      <Sphere args={[20, 32, 32]}> {/* Jupiter is larger, so increase the sphere size */}
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>

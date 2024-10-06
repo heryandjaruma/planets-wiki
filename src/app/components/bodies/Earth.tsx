@@ -51,7 +51,7 @@ function Earth({ onClick }: EarthProps) {
       onClick(earthRef.current);
     }}
     >
-      <Sphere args={[2, 32, 32]}>
+      <Sphere args={[6, 32, 32]}>
         <meshStandardMaterial map={texture} />
       </Sphere>
     </mesh>
