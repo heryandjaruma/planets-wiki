@@ -12,4 +12,16 @@ const tapiocaShadow = localFont({
   weight: "500",
 });
 
-export { tapioca, tapiocaShadow }
+const paytone = localFont({
+  src: "./fonts/paytone.ttf",
+  variable: "--font-paytone",
+  weight: "500",
+})
+
+const pjs = localFont({
+  src: "./fonts/pjs.ttf",
+  variable: "--font-paytone",
+  weight: "500",
+})
+
+export { tapioca, tapiocaShadow, paytone, pjs }

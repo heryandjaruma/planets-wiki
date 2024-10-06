@@ -32,7 +32,7 @@ function SaturnOrbit() {
     return orbitPoints;
   }, [scalingFactor]);
 
-  return <Line points={points} color="yellow" lineWidth={1} />;
+  return <Line points={points} color="gray" lineWidth={1} />;
 }
 
 export default SaturnOrbit;

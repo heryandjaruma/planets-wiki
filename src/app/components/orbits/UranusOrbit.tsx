@@ -32,7 +32,7 @@ function UranusOrbit() {
     return orbitPoints;
   }, [scalingFactor]);
 
-  return <Line points={points} color="cyan" lineWidth={1} />;
+  return <Line points={points} color="gray" lineWidth={1} />;
 }
 
 export default UranusOrbit;

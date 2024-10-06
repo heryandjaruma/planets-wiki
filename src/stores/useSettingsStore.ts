@@ -5,6 +5,9 @@ import * as THREE from 'three';
 interface SettingsState {
   cameraRef: React.RefObject<THREE.PerspectiveCamera> | null;
   setCameraRef: (ref: React.RefObject<THREE.PerspectiveCamera>) => void;
+  
+  focusedObject: THREE.Mesh | null;
+  setFocusedObject: (object: THREE.Mesh | null) => void;
 
   scalingFactor: number;
   setScalingFactor: (factor: number) => void;
@@ -35,6 +38,9 @@ interface SettingsState {
 
   neptuneRef: React.RefObject<THREE.Mesh> | null;
   setNeptuneRef: (ref: React.RefObject<THREE.Mesh>) => void;
+  
+  currentStep: number;
+  setCurrentStep: (step: number) => void;
 }
 
 const useSettingsStore = create<SettingsState>((set) => ({
@@ -70,6 +76,12 @@ const useSettingsStore = create<SettingsState>((set) => ({
 
   neptuneRef: null,
   setNeptuneRef: (ref) => set({ neptuneRef: ref }),
+  
+  focusedObject: null,
+  setFocusedObject: (object) => set({ focusedObject: object }),
+  
+  currentStep: 1, // Initialize step to 1
+  setCurrentStep: (step) => set({ currentStep: step }), // Setter for step
 }));
 
 export default useSettingsStore;
