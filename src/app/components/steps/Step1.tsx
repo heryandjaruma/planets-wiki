@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import useSettingsStore from "@/stores/useSettingsStore";
 import Link from "next/link";
 
-export default function() {
+export default function Step1() {
   const { currentStep, setCurrentStep } = useSettingsStore();
   
   return (
