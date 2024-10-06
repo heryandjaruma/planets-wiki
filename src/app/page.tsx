@@ -14,7 +14,6 @@ export default function Home() {
           <meta name="description" content="Dynamic Orrery with Three.js in Next.js" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-
         <main className="relative w-full h-full">
           <OrreryFiber className="absolute top-0 left-0" />
           
